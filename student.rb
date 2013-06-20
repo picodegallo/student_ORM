@@ -82,11 +82,7 @@ class Student
 
   def self.where(query)
     records = DB.execute("SELECT * FROM students WHERE name = '#{query[:name]}';")
-    if records.size > 1 
-      records
-    else
-      records.first
-    end
+    records.collect{|record| make_student_from_record(record)}
   end
 
 
