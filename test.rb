@@ -54,7 +54,7 @@ test 'should be able to retrive a student with a where statment' do
   s.name = "Jeff Baird"
   s.save
 
-  assert_equal Student.where(:name => "Jeff Baird"), [[s.id, "Jeff Baird", nil, nil]]
+  assert_equal Student.where(:name => "Jeff Baird"), [s.id, s.name, s.bio, s.tagline] #[[s.id, "Jeff Baird", nil, nil]]
 
 end
 
