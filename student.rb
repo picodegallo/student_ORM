@@ -56,33 +56,43 @@ class Student
     end
   end
 
-  def self.find_by_name(name)
-    record = DB.execute("SELECT * FROM students WHERE name = '#{name}';").first
-    make_student_from_record(record)
-  end
+  # def self.find_by_name(name)
+  #   record = DB.execute("SELECT * FROM students WHERE name = '#{name}';").first
+  #   make_student_from_record(record)
+  # end
 
-  def self.find_by_bio(bio)
-    record = DB.execute("SELECT * FROM students WHERE bio = '#{bio}';").first
-    make_student_from_record(record)
-  end
+  # def self.find_by_bio(bio)
+  #   record = DB.execute("SELECT * FROM students WHERE bio = '#{bio}';").first
+  #   make_student_from_record(record)
+  # end
 
-  def self.find_by_tagline(tagline)
-    record = DB.execute("SELECT * FROM students WHERE tagline = '#{tagline}';").first
-    make_student_from_record(record)
-  end
+  # def self.find_by_tagline(tagline)
+  #   record = DB.execute("SELECT * FROM students WHERE tagline = '#{tagline}';").first
+  #   make_student_from_record(record)
+  # end
+
+  # def self.find(finder_id)
+  #   record = DB.execute("SELECT * FROM students WHERE id = #{finder_id};").first
+  #   make_student_from_record(record)
+  # end
 
   def self.all
     DB.execute("SELECT * FROM students;").collect{|record| make_student_from_record(record)}
   end
 
-  def self.find(finder_id)
-    record = DB.execute("SELECT * FROM students WHERE id = #{finder_id};").first
-    make_student_from_record(record)
-  end
-
   def self.where(query)
     records = DB.execute("SELECT * FROM students WHERE name = '#{query[:name]}';")
     records.collect{|record| make_student_from_record(record)}
+  end
+
+  def self.method_missing(m, *args, &block)
+    if m =~ /find_by_(\w+)/
+      binding.pry
+      where(m.to_s.split("_").last.to_sym)
+
+    elsif m == :find 
+      puts "*find (by id) match"
+    end
   end
 
 
